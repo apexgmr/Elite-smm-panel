@@ -1,0 +1,119 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "System user account",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "balance": { "type": "number" },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "status": { "type": "string", "enum": ["active", "banned"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "balance", "role", "status"]
+    },
+    "Service": {
+      "title": "Service",
+      "description": "SMM Service offered by the panel",
+      "type": "object",
+      "properties": {
+        "category": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "pricePer1000": { "type": "number" },
+        "min": { "type": "number" },
+        "max": { "type": "number" },
+        "providerId": { "type": "string" },
+        "providerServiceId": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "inactive"] }
+      },
+      "required": ["category", "name", "pricePer1000", "min", "max", "status"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "User order for a service",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "serviceId": { "type": "string" },
+        "serviceName": { "type": "string" },
+        "link": { "type": "string" },
+        "quantity": { "type": "number" },
+        "charge": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "processing", "completed", "cancelled", "refunded"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "providerOrderId": { "type": "string" }
+      },
+      "required": ["userId", "serviceId", "link", "quantity", "charge", "status", "createdAt"]
+    },
+    "Payment": {
+      "title": "Payment",
+      "description": "Fund addition request",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "amount": { "type": "number" },
+        "method": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "completed", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "proofUrl": { "type": "string" }
+      },
+      "required": ["userId", "amount", "method", "status", "createdAt"]
+    },
+    "Ticket": {
+      "title": "Ticket",
+      "description": "Support ticket",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "subject": { "type": "string" },
+        "status": { "type": "string", "enum": ["open", "answered", "closed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "lastMessageAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "subject", "status", "createdAt"]
+    },
+    "TicketMessage": {
+      "title": "TicketMessage",
+      "description": "Individual message in a support ticket",
+      "type": "object",
+      "properties": {
+        "ticketId": { "type": "string" },
+        "userId": { "type": "string" },
+        "message": { "type": "string" },
+        "isAdmin": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ticketId", "userId", "message", "isAdmin", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/services/{serviceId}": {
+      "schema": "Service",
+      "description": "Panel services"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Service orders"
+    },
+    "/payments/{paymentId}": {
+      "schema": "Payment",
+      "description": "Fund additions"
+    },
+    "/tickets/{ticketId}": {
+      "schema": "Ticket",
+      "description": "Support tickets"
+    },
+    "/tickets/{ticketId}/messages/{messageId}": {
+      "schema": "TicketMessage",
+      "description": "Support ticket messages"
+    }
+  }
+}

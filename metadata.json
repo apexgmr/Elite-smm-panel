@@ -1,0 +1,6 @@
+{
+  "name": "Elite SMM Panel",
+  "description": "A professional Social Media Marketing panel with user and admin dashboards, automated order processing, and secure payment management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["Full-stack", "Firebase", "Authentication", "Express API"]
+}
